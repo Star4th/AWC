@@ -1,0 +1,17 @@
+awc-streamlit-app/
+├── app.py                # 메인 Streamlit 애플리케이션 파일
+├── pages/                # Streamlit의 멀티페이지 기능을 위한 폴더 (선택 사항, 추천)
+│   ├── 1_🏆_Tournaments.py
+│   ├── 2_🧑‍💻_Players.py
+│   └── 3_📰_News.py
+├── content/              # 데이터 파일 (YAML, Markdown)
+│   ├── tournaments/
+│   │   └── awc2025_example.yaml
+│   ├── players/
+│   │   └── player_A_example.md
+│   └── news/
+│       └── announcement_01.md
+├── static/               # 이미지 등 정적 파일 (Streamlit에서 직접 서빙은 제한적, 외부 링크나 base64 인코딩 고려)
+│   └── images/
+│       └── awc_logo.png
+└── requirements.txt      # 배포 시 필요한 라이브러리 목록
