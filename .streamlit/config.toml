@@ -1,7 +1,7 @@
 [theme]
 # adofai.gg의 색상 팔레트를 참고하여 설정 (정확한 색상 코드는 브라우저 개발자 도구로 확인 가능)
 primaryColor="#7A5FFF"  # 예시: adofai.gg의 보라색 계열 강조색
-backgroundColor="#1E1E2E"  # 예시: 어두운 배경색
+backgroundColor="#1E1E38"  # 예시: 어두운 배경색
 secondaryBackgroundColor="#2A2A45"  # 예시: 카드나 섹션 배경색 (backgroundColor보다 약간 밝게)
 textColor="#F0F0F0"  # 예시: 밝은 텍스트 색상
 font="sans serif"  # 또는 "serif", "monospace". 특정 웹 폰트는 아래 CSS 주입 방법 참고

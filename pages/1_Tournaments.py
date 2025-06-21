@@ -1,102 +1,82 @@
-# --- START OF FILE 1_Tournaments.py ---
+# 1_Tournaments.py (최종 리팩토링 버전)
 
 import streamlit as st
 import sys
 import os
 
-# 현재 파일의 디렉토리(pages)의 부모 디렉토리(루트)를 sys.path에 추가
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from dataLoad import load_tournaments, STATIC_DIR
+from dataLoad import load_tournaments
+from ui_components import inject_local_css, create_top_nav_bar, create_tournament_card, get_image_as_base64
+from app import SMALL_LOGO_IMAGE_FILE # 경로 변수는 app.py에서 가져와도 괜찮음
 
-st.set_page_config(page_title="대회 정보", layout="wide")
-st.title("🏆 대회 정보")
+st.set_page_config(page_title="대회 정보", layout="wide", initial_sidebar_state="collapsed")
+inject_local_css("style.css")
 
-# --- st.query_params 사용으로 통일 ---
-# URL query parameter를 사용하여 상세 페이지를 표시할지 결정
-# st.query_params는 딕셔너리처럼 동작하는 속성입니다.
-current_query_params = st.query_params
-tournament_id_from_query = current_query_params.get("id") # .get("id")는 값이 없으면 None을 반환
+small_logo_base64 = get_image_as_base64(SMALL_LOGO_IMAGE_FILE)
+create_top_nav_bar(small_logo_base64, active_page="Tournaments")
 
-try:
-    all_tournaments = load_tournaments()
-except ImportError as e:
-    st.error(f"데이터 로딩 모듈을 가져오는 중 오류 발생: {e}")
-    st.error("dataLoad.py 파일이 app.py와 동일한 디렉토리에 있는지, 필요한 라이브러리(PyYAML, Markdown)가 설치되었는지 확인하세요.")
-    all_tournaments = []
-except Exception as e:
-    st.error(f"데이터 로딩 중 예상치 못한 오류 발생: {e}")
-    all_tournaments = []
+all_tournaments = load_tournaments()
+tournament_id = st.query_params.get("id")
 
-
-if tournament_id_from_query and any(t['id'] == tournament_id_from_query for t in all_tournaments):
-    # --- 상세 페이지 표시 ---
-    tournament = next((t for t in all_tournaments if t['id'] == tournament_id_from_query), None)
+if tournament_id and any(t['id'] == tournament_id for t in all_tournaments):
+    # --- 1. 상세 페이지 ---
+    tournament = next((t for t in all_tournaments if t['id'] == tournament_id), None)
+    
     if tournament:
-        st.header(tournament['title'])
-        st.markdown(f"**날짜:** {tournament.get('date', '미정')}")
-        st.markdown(f"**주최:** {tournament.get('organizer', 'N/A')}")
-        st.markdown(f"**상금:** {tournament.get('prize', 'N/A')}")
-        st.markdown(f"**우승자:** {tournament.get('winner', '미정')}")
-        st.markdown(f"**상태:** {tournament.get('status', 'N/A')}")
+        
+        # 1-1. 유튜브 영상 임베드
+        video_id = tournament.get('youtube_video_id')
+        if video_id:
+            #st.markdown("<h2 class='section-title'>대표 영상</h2>", unsafe_allow_html=True)
+            video_cols = st.columns([1, 3, 1])
+            with video_cols[1]:
+                st.markdown(f"""
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/{video_id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                """, unsafe_allow_html=True)
 
-        if 'description' in tournament:
-            st.markdown("---")
-            st.markdown(tournament['description'], unsafe_allow_html=True)
+        # 1-2. 대회 제목
+        st.markdown(f"<h1 class='detail-title'>{tournament.get('title', '제목 없음')}</h1>", unsafe_allow_html=True)
+        
+        # 1-3. 바로가기 (위치 변경)
+        links = tournament.get('shortcut_links', [])
+        if links:
+            #st.markdown("<h2 class='section-title'></h2>", unsafe_allow_html=True)
+            link_cols = st.columns(len(links) if len(links) <= 5 else 5)
+            for i, link in enumerate(links):
+                with link_cols[i % 5]:
+                    st.markdown(f'<a href="{link.get("url", "#")}" target="_blank" class="detail-button-link">{link.get("icon", "")} {link.get("label", "링크")}</a>', unsafe_allow_html=True)
+        
+        # 1-4. 레벨 정렬
+        st.markdown(f'<a href="/Levels?tournament_id={tournament.get("id")}" target="_self" class="detail-button-link">📜 오리지널 레벨 목록 보기</a>', unsafe_allow_html=True)
 
-        if 'bracket_image' in tournament and tournament['bracket_image']:
-            image_filename = tournament['bracket_image']
-            # STATIC_DIR이 Path 객체이므로 올바르게 경로를 결합합니다.
-            # image_path = STATIC_DIR / 'images' / image_filename
-            # if image_path.exists():
-            #     st.image(str(image_path), caption="대진표")
-            # else:
-            #     st.warning(f"대진표 이미지를 찾을 수 없습니다: {image_path}")
-            st.markdown(f"**대진표 이미지:** {image_filename} (이미지 표시는 경로 설정 및 파일 필요)")
-            # 예시 플레이스홀더 이미지
-            st.image(f"https://via.placeholder.com/600x400.png?text=Bracket+{image_filename.split('.')[0]}", caption="대진표 (예시)")
-
-
-        if tournament.get('vod_links'):
-            st.subheader("관련 영상")
-            for vod in tournament['vod_links']:
-                st.markdown(f"- [{vod.get('title', '제목 없음')}]({vod.get('url', '#')})")
-
+        # 1-5. 목록으로 돌아가기 버튼
+        st.markdown("<hr class='custom-hr'>", unsafe_allow_html=True)
         if st.button("◀ 대회 목록으로 돌아가기"):
-            # st.query_params를 사용하여 query params 초기화
             st.query_params.clear()
-            st.rerun() # st.experimental_rerun() 대신 st.rerun() 사용 권장
+            st.rerun()
     else:
-        st.error("선택한 ID의 대회 정보를 찾을 수 없습니다.")
+        st.error("선택한 대회를 찾을 수 없습니다.")
         if st.button("◀ 대회 목록으로 돌아가기"):
             st.query_params.clear()
             st.rerun()
 
 else:
-    # --- 목록 페이지 표시 ---
-    st.subheader("대회 목록")
-    search_term = st.text_input("대회 검색", key="tournament_search")
-    
-    filtered_tournaments = []
-    if all_tournaments: # all_tournaments가 비어있지 않을 때만 필터링
-        filtered_tournaments = [
-            t for t in all_tournaments 
-            if search_term.lower() in t.get('title', '').lower()
-        ]
+    # --- 목록 페이지 (개선된 카드 디자인 적용) ---
+    st.markdown("""
+    <div class="text-center">
+        <h1 class='page-title'>🏆 대회 정보</h1>
+        <p>자세히 보고 싶은 대회를 클릭하세요.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    # st.markdown("<br>", unsafe_allow_html=True)
 
-    if not filtered_tournaments and not all_tournaments: # 등록된 대회가 아예 없는 경우
-        st.info("등록된 대회가 없습니다.")
-    elif not filtered_tournaments and all_tournaments : # 등록된 대회는 있지만 검색 결과가 없는 경우
-        st.info("검색 결과가 없습니다.")
+    if all_tournaments:
+        num_columns = 4
+        cols = st.columns(num_columns)
+        for i, tournament in enumerate(all_tournaments):
+            # 카드 생성 함수 사용
+            cols[i % num_columns].markdown(create_tournament_card(tournament), unsafe_allow_html=True)
     else:
-        for t in filtered_tournaments:
-            with st.container(border=True): # Streamlit 1.29+
-                st.markdown(f"### {t.get('title', '제목 없음')}")
-                st.caption(f"날짜: {t.get('date', '미정')} | 상태: {t.get('status', 'N/A')}")
-                # 상세 페이지로 이동하는 링크 (또는 버튼 후 query_params 설정)
-                if st.button("자세히 보기", key=f"detail_btn_{t['id']}", use_container_width=True):
-                    # st.query_params를 사용하여 query params 설정
-                    st.query_params["id"] = t['id']
-                    st.rerun()
-                # st.markdown("---") # 컨테이너 사용 시 불필요할 수 있음
-
-# --- END OF FILE 1_Tournaments.py ---
+        st.info("등록된 대회가 없습니다.")

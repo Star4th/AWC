@@ -1,0 +1,16 @@
+title: "Chaos-Rybdis"
+artist: "Se-U-Ra"
+tournament_id: "awc2025"
+minititle: "AWC2025"
+creator: "AWC Chart Team 《Rewind》"
+
+# 목록 페이지 표시용
+detail_creator: 韓狼, Ocbim, SomSom
+
+difficulty_rating: "22.1" # 난이도 등급
+bpm: 218
+tiles: 3936
+
+# 상세 페이지 표시용
+youtube_video_id: "utjPJn2jhKs" # 유튜브 영상 ID
+download_url: https://api.adofai.gg/forum/v1/levels/4777/file

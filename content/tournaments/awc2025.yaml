@@ -1,0 +1,48 @@
+# content/tournaments/awc2025.yaml (최종 버전)
+
+title: "ADOFAI World Championship 2025"
+minititle: "AWC 2025"
+year: "2025"
+id: "awc2025"
+bg_image_class: "tournament_bg_2025"
+banner_image_url: 'https://fixcdn.hyonsu.com/attachments/1384956711089213510/1384956834154151986/tournament_bg_2025.png?ex=68545110&is=6852ff90&hm=cc38332372be1bf6300636b05e84ad0fa6461146d2f437d56fe620039f11c65b&'
+
+# --- 상세 정보 ---
+status: "종료됨"
+dates:
+  - label: "등록"
+    value: "TBD"
+  - label: "예선"
+    value: "TBD"
+  - label: "본선"
+    value: "TBD"
+prize_pool: "TBD"
+organizer: "ADOFAI.gg"
+players: "TBD"
+
+# --- 바로가기 버튼 ---
+shortcut_links:
+  - label: "규칙"
+    url: "https://afg.ink/event/awc2025/rules"
+    icon: "📜"
+  - label: "참가 신청"
+    url: "https://youtu.be/vQTPUVMELls"
+    icon: "📝"
+  - label: "디스코드"
+    url: "https://afg.ink/event/discord"
+    icon: "💬"
+  - label: "일정"
+    url: "https://afg.ink/event/awc2025/schedule"
+    icon: "📅"
+
+
+# --- 유튜브 영상 ---
+# 예시: 유튜브 영상 주소가 https://www.youtube.com/watch?v=dQw4w9WgXcQ 라면,
+# https://www.youtube.com/watch?v=CzCaptnR9J4
+# v= 뒤의 'dQw4w9WgXcQ'가 영상 ID입니다.🎵
+youtube_video_id: "CzCaptnR9J4" 
+
+# --- 대회 소개 ---
+description: |
+  <h2>AWC 2025 시즌의 첫 관문!</h2>
+  <p>이 대회는 전 세계 최고의 플레이어들이 모여 실력을 겨루는 장입니다.</p>

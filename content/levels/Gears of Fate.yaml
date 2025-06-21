@@ -1,0 +1,16 @@
+title: "Gears of Fate"
+artist: "Laur"
+tournament_id: "awc2025"
+minititle: "AWC2025"
+creator: "AWC Chart Team 《Omnisciens Gaia》"
+
+# 목록 페이지 표시용
+detail_creator: 새제비, ChyaRyam
+
+difficulty_rating: "21.6" # 난이도 등급
+bpm: 241
+tiles: 4186
+
+# 상세 페이지 표시용
+youtube_video_id: "f43CGiKIPwE" # 유튜브 영상 ID
+download_url: https://api.adofai.gg/forum/v1/levels/4778/file

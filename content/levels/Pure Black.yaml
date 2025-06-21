@@ -1,0 +1,16 @@
+title: "Pure Black"
+artist: "KOTDARI, RoDy.cOde, Spehs"
+tournament_id: "awc2024"
+minititle: "AWC2024"
+creator: "AWC Chart Team 《Colourless》"
+
+# 목록 페이지 표시용
+detail_creator: ABorinGuy & V0W4N & Appilia & PELEX & Han_rang & niAE & yldo & 한월 & Bingsu & Etell
+
+difficulty_rating: "21.1" # 난이도 등급
+bpm: 180
+tiles: 2339
+
+# 상세 페이지 표시용
+youtube_video_id: "eBQssdKOXg0" # 유튜브 영상 ID
+download_url: https://api.adofai.gg/forum/v1/levels/4756/file

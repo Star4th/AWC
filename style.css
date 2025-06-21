@@ -1,65 +1,404 @@
-/* style.css */
-body {
-    font-family: 'Noto Sans KR', sans-serif; /* 예시: 전체 폰트 (Google Fonts 등에서 로드 필요) */
-    /* config.toml에서 backgroundColor, textColor 등을 설정하는 것이 좋음 */
-}
+/* style.css (수정 완료) */
 
-div[data-testid="stHeader"] {
-    padding-top: 0px !important;
-    padding-bottom: 0px !important;
-    min-height: 0px !important; /* 헤더의 최소 높이를 0으로 설정 */
-    height: 0px !important; /* 만약 헤더가 완전히 비어있고 공간만 차지한다면 높이를 0으로 강제 */
-    display: none !important; /* 만약 "Deploy" 버튼 외에 헤더가 전혀 필요 없다면 숨길 수 있지만, "Deploy" 버튼도 사라질 수 있습니다. */
-}
-
-/* 사이드바 및 토글 버튼 숨기기 */
+/* 사이드바 및 토글 버튼 숨김 */
 div[data-testid="stSidebar"] {
     display: none;
 }
-button[data-testid="stBaseButton-headerNoPadding"] { /* 이전 답변에서 찾은 토글 버튼 선택자 */
+button[data-testid="stBaseButton-headerNoPadding"] {
     display: none !important;
 }
 
-/* 카드 스타일 (app.py의 .custom-card 와 일치) */
-.custom-card {
-    background-color: #2A2A45; /* 카드 배경색 (config.toml의 secondaryBackgroundColor와 유사하게) */
+/* body 기본 스타일 */
+body {
+    background-color: #0F0F1E;
+    color: #e0e0e0;
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+}
+
+/* Streamlit 기본 컨테이너 패딩 조정 */
+div.block-container {
+    padding-top: 2.7rem !important;
+    padding-bottom: 1rem !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+}
+
+/* --- 상단 네비게이션 바 스타일 (기존과 동일) --- */
+.top-nav-container {
+    background-color: #1A1A2E;
+    padding: 0 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #2A2A45;
+    width: 100%;
+    box-sizing: border-box;
+}
+.top-nav-container .nav-logo a img {
+    height: 32px;
+    width: auto;
+    display: block;
+}
+.top-nav-container .nav-menu-items a {
+    color: #C0C0E0;
+    text-decoration: none;
+    margin-left: 35px;
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+.top-nav-container .nav-menu-items a:hover {
+    color: #8048da;
+}
+
+/* --- 활성화된 메뉴를 위한 스타일 추가 --- */
+.top-nav-container .nav-menu-items a.active {
+    color: #9A7FFF;
+    font-weight: 700; /* 더 굵게 */
+}
+
+@media (max-width: 768px) {
+    .top-nav-container {
+        padding: 0 20px;
+    }
+    .top-nav-container .nav-menu-items a {
+        margin-left: 20px;
+        font-size: 0.9em;
+    }
+}
+
+/* --- 중앙 로고 스타일 (기존과 동일) --- */
+.main-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px 60px 20px;
+}
+.main-logo-container img {
+    max-width: 350px;
+    width: 60%;
+    height: auto;
+    display: block;
+}
+@media (max-width: 768px) {
+    .main-logo-container img {
+        max-width: 280px;
+        width: 70%;
+    }
+    .main-logo-container {
+        padding: 40px 20px 30px 20px;
+    }
+}
+
+.card-link-wrapper {
+    text-decoration: none !important;
+}
+
+/* --- 카드 스타일 수정 및 오버레이 추가 --- */
+.custom-styled-card {
+    position: relative; /* ::before 가상 요소를 위한 기준점 */
     padding: 25px;
     border-radius: 12px;
     margin-bottom: 25px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-    border: 1px solid #4A4A65; /* 약간의 테두리 */
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-.custom-card:hover {
-    transform: translateY(-5px); /* 호버 시 약간 위로 이동 */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-}
-.custom-card h3 {
-    color: #E0E0FF; /* 카드 내의 h3 태그 */
-    margin-top: 0;
-    margin-bottom: 10px; /* 제목과 내용 사이 간격 */
-    font-size: 1.4em;
-}
-.custom-card p {
-    color: #B0B0D0; /* 카드 내용 텍스트 색상 */
-    font-size: 1em;
-    line-height: 1.6;
-}
-.custom-card button { /* 카드 내 버튼 스타일 (선택 사항) */
-    background-color: #7A5FFF;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
     color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s ease-in-out;
-}
-.custom-card button:hover {
-    background-color: #5C3BFF;
+    overflow: hidden; /* 내부 요소가 둥근 모서리를 벗어나지 않도록 */
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* 콘텐츠를 아래쪽에 정렬 */
+    background-color: #1E1E2E;
+    background-size: cover;
+    background-position: center center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-/* 추가적인 전체 페이지 스타일링 */
-.stApp { /* Streamlit 앱 전체 컨테이너 */
-    /* background-color: #12121F; /* config.toml에서 설정하는 것이 더 좋음 */
+.custom-styled-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+}
+
+/* --- 텍스트 가독성을 위한 오버레이 추가 --- */
+.custom-styled-card::before {
+    content: ""; /* 가상 요소는 content 속성이 필수 */
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    /* 아래에서 위로 점점 투명해지는 검은색 그라데이션 오버레이 */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1));
+    z-index: 1; /* 오버레이를 배경 이미지 위, 콘텐츠 아래에 위치시킴 */
+    border-radius: 12px; /* 부모 요소의 둥근 모서리와 일치 */
+    transition: background 0.3s ease; /* 호버 효과를 위한 부드러운 전환 */
+}
+
+.custom-styled-card:hover::before {
+    /* 호버 시 오버레이를 약간 더 어둡게 하여 강조 */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.2));
+}
+
+/* --- 카드 콘텐츠 스타일 수정 --- */
+.custom-styled-card .card-content {
+    position: relative; /* z-index가 작동하도록 position 속성 필요 */
+    z-index: 2; /* 콘텐츠를 오버레이(z-index: 1) 위에 위치시킴 */
+    padding: 20px; /* 콘텐츠 자체에 패딩을 줘서 카드 가장자리와 간격 확보 */
+}
+
+.custom-styled-card h3 {
+    font-size: 1.5em; /* 폰트 크기 조정 */
+    margin: 0 0 -15px 0; /* 제목과 버튼 사이 간격 */
+    font-weight: 700; /* 굵은 폰트 */
+    color: #ffffff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); /* 텍스트 그림자로 가독성 향상 */
+    line-height: 1.3; /* 줄 간격 */
+}
+
+.custom-styled-card .card-button-link {
+    display: inline-block;
+    padding: 10px 18px;
+    background-color: rgba(255, 255, 255, 0.15); /* 버튼 배경을 약간 밝게 */
+    color: #FFFFFF;
+    text-decoration: none;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-weight: 500;
+    text-align: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    align-self: flex-start; /* 버튼이 왼쪽 정렬되도록 */
+}
+
+.custom-styled-card .card-button-link:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* 특정 카드 배경 이미지 클래스 (기존과 동일) */
+.tournament_bg_2026 { background-image: url('https://fixcdn.hyonsu.com/attachments/1384956711089213510/1384958333718495333/tournament_bg_2026.png?ex=68545276&is=685300f6&hm=f4d131d195c1658beb9d57ee5bf7f8f7f38f530b37bd9d243d1c7a16c136ac7b&'); }
+.tournament_bg_2025 { background-image: url('https://fixcdn.hyonsu.com/attachments/1384956711089213510/1384956834154151986/tournament_bg_2025.png?ex=68545110&is=6852ff90&hm=cc38332372be1bf6300636b05e84ad0fa6461146d2f437d56fe620039f11c65b&'); }
+.tournament_bg_2024 { background-image: url('https://fixcdn.hyonsu.com/attachments/1384956711089213510/1384956819470024755/tournament_bg_2024.png?ex=6854510d&is=6852ff8d&hm=8055adabaed5f3d5a3ae13ac99f943b58319476a70521db5fd7667812dce020f&'); }
+.tournament_bg_2023 { background-image: url('https://fixcdn.hyonsu.com/attachments/1384956711089213510/1384956793247240344/tournament_bg_2023.jpg?ex=68545106&is=6852ff86&hm=c15e14a4454362f16c5605fd476eebc6199af83ab8c90132a9162d15dd66bbc7&'); }
+
+/* --- 푸터 스타일 (기존과 동일) --- */
+.footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: #888888;
+    font-size: 0.9em;
+    border-top: 1px solid #3A3A5A;
+    margin-top: 50px;
+}
+
+/* 폰트 로드 (기존과 동일) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+/* --- 상세 페이지 스타일 --- */
+.detail-banner {
+    height: 350px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.detail-title {
+    font-size: 2.8em;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.section-title {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #E0E0E0;
+    border-bottom: 2px solid #4A4A65;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+.custom-hr {
+    border: none;
+    border-top: 1px solid #2A2A45;
+    margin: 2rem 0;
+}
+
+/* 정보 그리드 컨테이너 스타일 */
+div[data-testid="stVerticalBlock"] div[data-testid="stContainer"] {
+    background-color: #1E1E2E;
+    border: 1px solid #2A2A45 !important;
+    transition: all 0.3s ease;
+    height: 100%; /* 컬럼 높이를 동일하게 맞춤 */
+}
+div[data-testid="stVerticalBlock"] div[data-testid="stContainer"]:hover {
+    border-color: #9A7FFF !important;
+    transform: translateY(-3px);
+}
+
+/* 바로가기 버튼 링크 스타일 */
+a.detail-button-link { /* a 태그임을 명시하여 특정성을 높임 */
+    display: block;
+    width: 100%;
+    padding: 15px 10px;
+    background-color: #2A2A45;
+    color: #E0E0E0 !important; /* !important 추가: 다른 스타일보다 우선 적용 */
+    text-decoration: none !important; /* !important 추가: 밑줄 제거 강제 */
+    border-radius: 8px;
+    border: 1px solid #4A4A65;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+a.detail-button-link:hover { /* a 태그임을 명시 */
+    background-color: #9A7FFF;
+    border-color: #9A7FFF;
+    color: #FFFFFF !important; /* !important 추가: 호버 시 색상 강제 */
+    transform: scale(1.05);
+}
+
+.description-content p {
+    font-size: 1.1em;
+    line-height: 1.8;
+}
+
+/* --- 유튜브 영상 임베드 스타일 --- */
+.video-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 비율 */
+    border-radius: 12px;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* --- 레벨 목록 페이지 스타일 (최종 수정) --- */
+.level-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+/* 헤더 행 스타일 */
+.level-list-table .header-row {
+    border-bottom: 2px solid #4A4A65;
+    color: #A0A0C0;
+    text-align: left;
+}
+
+/* ▼▼▼ 핵심 수정: 헤더와 내용 행에 각각 flex 레이아웃 적용 ▼▼▼ */
+.header-row .row-content,
+.level-row .row-content {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+}
+
+/* 헤더와 내용 행의 각 셀에 패딩 적용 */
+.header-row .cell,
+.level-row .cell {
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+/* 헤더와 내용 행의 각 셀 너비 비율 지정 */
+.header-row .cell-title,
+.level-row .cell-title { flex: 3; font-weight: 700; }
+
+.header-row .cell-artist,
+.level-row .cell-artist { flex: 2; }
+
+.header-row .cell-creator,
+.level-row .cell-creator { flex: 2; }
+
+.header-row .cell-difficulty,
+.level-row .cell-difficulty { flex: 1; text-align: right; }
+
+/* 내용 행에 대한 스타일 (클릭 가능 링크) */
+a.level-row { /* a 태그임을 명시하여 특정성 강화 */
+    display: block;
+    text-decoration: none !important; /* 밑줄 제거 강제 */
+    color: #E0E0E0 !important; /* 텍스트 색상 강제 */
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #2A2A45;
+}
+a.level-row:hover {
+    background-color: #1E1E2E;
+}
+/* --- 레벨 상세 페이지 스타일 --- */
+.level-detail-header {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+.level-video-container {
+    flex: 2;
+}
+.level-info-container {
+    flex: 1;
+}
+.level-info-box {
+    background-color: #1E1E2E;
+    border: 1px solid #2A2A45;
+    border-radius: 12px;
+    padding: 25px;
+    height: 100%;
+}
+.level-info-box h3 {
+    margin-top: 0;
+    font-size: 1.5em;
+    border-bottom: 1px solid #4A4A65;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+.level-info-box p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+.download-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    background-color: #9A7FFF;
+    color: white !important;
+    text-align: center;
+    text-decoration: none !important; /* !important 추가: 밑줄 제거 강제 */
+    border-radius: 8px;
+    font-weight: 700;
+    transition: background-color 0.2s ease;
+}
+.download-button:hover {
+    background-color: #8048da;
+}
+
+/* --- "전체 목록으로 돌아가기" 버튼 스타일 --- */
+.back-to-all-button {
+    display: inline-block; /* 버튼 크기가 내용에 맞게 조절되도록 */
+    padding: 8px 16px;
+    margin-bottom: 1.5rem; /* 제목과의 간격 */
+    background-color: transparent;
+    color: #A0A0C0 !important; /* 기본 링크 색상 덮어쓰기 */
+    text-decoration: none !important; /* 밑줄 제거 */
+    border: 1px solid #4A4A65;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.back-to-all-button:hover {
+    background-color: #2A2A45;
+    color: #FFFFFF !important;
+    border-color: #9A7FFF;
 }

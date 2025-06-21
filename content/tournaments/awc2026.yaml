@@ -1,0 +1,47 @@
+# content/tournaments/awc2026.yaml (최종 버전)
+
+title: "ADOFAI World Championship 2026"
+minititle: "AWC 2026"
+year: "2026"
+id: "awc2026"
+bg_image_class: "tournament_bg_2026"
+banner_image_url: 'https://fixcdn.hyonsu.com/attachments/1384956711089213510/1384958333718495333/tournament_bg_2026.png?ex=68545276&is=685300f6&hm=f4d131d195c1658beb9d57ee5bf7f8f7f38f530b37bd9d243d1c7a16c136ac7b&'
+
+# --- 상세 정보 ---
+status: "종료됨"
+dates:
+  - label: "등록"
+    value: "TBD"
+  - label: "예선"
+    value: "TBD"
+  - label: "본선"
+    value: "TBD"
+prize_pool: "TBD"
+organizer: "ADOFAI.gg"
+players: "TBD"
+
+# --- 바로가기 버튼 ---
+shortcut_links:
+  - label: "규칙"
+    url: "#"
+    icon: "📜"
+  - label: "참가 신청"
+    url: "#"
+    icon: "📝"
+  - label: "디스코드"
+    url: "https://afg.ink/event/discord"
+    icon: "💬"
+  - label: "일정"
+    url: "#"
+    icon: "📅"
+
+# --- 유튜브 영상 ---
+# 예시: 유튜브 영상 주소가 https://www.youtube.com/watch?v=dQw4w9WgXcQ 라면,
+# https://www.youtube.com/watch?v=XTdqpdTMZbw
+# v= 뒤의 'dQw4w9WgXcQ'가 영상 ID입니다.
+youtube_video_id: "XTdqpdTMZbw" 
+
+# --- 대회 소개 ---
+description: |
+  <h2>AWC 2025 시즌의 첫 관문!</h2>
+  <p>이 대회는 전 세계 최고의 플레이어들이 모여 실력을 겨루는 장입니다.</p>
