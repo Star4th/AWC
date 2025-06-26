@@ -1,10 +1,28 @@
 /* style.css (수정 완료) */
 
-/* 사이드바 및 토글 버튼 숨김 */
+/* --- 사이드바 및 관련 요소 숨기기 (강화 버전) --- */
+
+/* 1. 사이드바 자체를 숨김 */
 div[data-testid="stSidebar"] {
-    display: none;
+    display: none !important;
 }
+
+/* 2. 사이드바 토글 버튼을 다양한 선택자로 타겟팅하여 숨김 */
+/* 가장 일반적인 data-testid */
+button[data-testid="stSidebarNavToggler"],
+button[data-testid="collapsedControl"] {
+    display: none !important;
+}
+
+/* 이전 답변에서 찾았던 구체적인 data-testid */
 button[data-testid="stBaseButton-headerNoPadding"] {
+    display: none !important;
+}
+
+/* 3. 헤더 영역의 버튼을 더 구체적으로 타겟팅 (구조 기반) */
+/* 헤더(stHeader) 안에 있는 첫 번째 섹션(stHeader-Toolbar)의 버튼을 타겟팅 */
+/* 이 선택자는 Streamlit의 내부 구조에 더 의존하지만, 더 강력할 수 있습니다. */
+div[data-testid="stHeader"] > div:first-child > div:first-child > button {
     display: none !important;
 }
 
@@ -381,24 +399,4 @@ a.level-row:hover {
 }
 .download-button:hover {
     background-color: #8048da;
-}
-
-/* --- "전체 목록으로 돌아가기" 버튼 스타일 --- */
-.back-to-all-button {
-    display: inline-block; /* 버튼 크기가 내용에 맞게 조절되도록 */
-    padding: 8px 16px;
-    margin-bottom: 1.5rem; /* 제목과의 간격 */
-    background-color: transparent;
-    color: #A0A0C0 !important; /* 기본 링크 색상 덮어쓰기 */
-    text-decoration: none !important; /* 밑줄 제거 */
-    border: 1px solid #4A4A65;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.back-to-all-button:hover {
-    background-color: #2A2A45;
-    color: #FFFFFF !important;
-    border-color: #9A7FFF;
 }
