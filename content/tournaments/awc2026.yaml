@@ -39,7 +39,7 @@ shortcut_links:
 # 예시: 유튜브 영상 주소가 https://www.youtube.com/watch?v=dQw4w9WgXcQ 라면,
 # https://www.youtube.com/watch?v=XTdqpdTMZbw
 # v= 뒤의 'dQw4w9WgXcQ'가 영상 ID입니다.
-youtube_video_id: "XTdqpdTMZbw" 
+youtube_video_id: ""
 
 # --- 대회 소개 ---
 description: |
